@@ -1,6 +1,9 @@
 ## steps
 - [ ] 1. script first 
   - [ ] Test comparison algo with two local images
+  **STATUS SEPT 4 2020**
+    - hiccuping on opening a local image file, having issues with getting the path to the image correct, but progress made in `main.go`
+    - ignore `scratchpad.go` just using that as a dumping ground for now!
   - [ ] open a csv file 
   - [ ] line by line I need to:
       - [ ] fetch the images at the path given in fields 1 and 2
