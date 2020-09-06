@@ -3,13 +3,16 @@ package main
 import (
 	"fmt"
 	"image"
+	_ "image/png"
 	"log"
 	"math"
 	"os"
 )
 
 func loadImg(filename string) (image.Image, error) {
-	f, err := os.Open(filename)
+	os.Chdir("/home/cheyenne/workspace/image_comparison/images")
+	fmt.Print(os.Getwd())
+	f, err := os.Open("/banana.png")
 	if err != nil {
 		return nil, err
 	}
@@ -22,7 +25,7 @@ func loadImg(filename string) (image.Image, error) {
 		return nil, err
 	}
 
-	return img, nil
+	return img.(*image.RGBA), nil
 }
 
 func sqDiffUInt8(x, y uint8) uint64 {
@@ -31,7 +34,6 @@ func sqDiffUInt8(x, y uint8) uint64 {
 }
 
 func main() {
-	fmt.Println(os.Getwd())
 	img1, err := loadImg("banana.png")
 	if err != nil {
 		log.Fatal(err)
@@ -58,5 +60,4 @@ func main() {
 			fmt.Println(result)
 		}
 	}
-
 }
