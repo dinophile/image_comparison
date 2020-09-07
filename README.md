@@ -1,15 +1,16 @@
 ## steps
 - [ ] 1. script first 
-  - [ ] Test comparison algo with two local images
-
-  
-  **STATUS SEPT 4 2020**
-    - hiccuping on opening a local image file, having issues with getting the path to the image correct, but progress made in `main.go`
-    - ignore `scratchpad.go` just using that as a dumping ground for now!
-  - [ ] open a csv file 
+  - [ ] ~~Test comparison algo with two local images~~ turns out static path interpolation ain't so easy in go, will have to revisit this to learn what's happening! So on to fetching from t'internet!
+  - [x] open a csv file 
   - [ ] line by line I need to:
-      - [ ] fetch the images at the path given in fields 1 and 2
-      - [ ] store the images for use? or pass them straight to:
+      - [x] fetch the images at the path given in fields 1 and 2
+      - [x] store the images for use ~~or pass them straight to~~:
+
+
+      **STATUS Sept 6** 
+      - so close! Have images, just need to get them into the right 'type' to pass on to my algo!
+
+      
       - [ ] run the images through the comparison algorithm
       - [ ] run the elapsed function each time the comparison algorithm runs
       - [ ] output the results to another csv
