@@ -1,58 +1,22 @@
-## steps
-- [ ] 1. script first 
-  - [ ] ~~Test comparison algo with two local images~~ turns out static path interpolation ain't so easy in go, will have to revisit this to learn what's happening! So on to fetching from t'internet!
-  - [x] open a csv file 
-  - [ ] line by line I need to:
-      - [x] fetch the images at the path given in fields 1 and 2
-      - [x] store the images for use ~~or pass them straight to~~:
+## An image comparison app in Go
+##### *almost
 
+Here I have the beginnings of an application to compare two `.png` images for similarity.
 
-      **STATUS Sept 6** 
-      - so close! Have images, just need to get them into the right 'type' to pass on to my algo!
+I say beginnings of because as you can guess: it's not quite working.
 
-      
-      - [ ] run the images through the comparison algorithm
-      - [ ] run the elapsed function each time the comparison algorithm runs
-      - [ ] output the results to another csv
-        - [ ] image 1 path for field one, image 2 path for field 2, result of comparison, elapsed time
-  - [ ] when done return a csv file with the correctly formated information
+I can get the script most of the way there with `go run main.go`, with the last hurdle being resizing the images to match in size and possibly resolutions? Need to investigate that! I'm getting stuck on `image bounds not equal` and that's pretty cool! I made it a lot farther than I had thought! :D
 
-- [ ] 2. tests
-    - [ ] a. tests for custom functions:
-        - [ ] ConvertImage
-        - [ ] FastCompare
+Why did I choose Golang? I do love a challenge. But also if given a large number of images to compare, go would be faster to cruch through them vs something like javascript. Also since getting this script working on multiple operating systems could be a possibility I can compile and pass on a program to different OS users.
 
-- [ ] 3. convert to HTTP service
-  - [ ] a. create webserver
-  - [ ] b. create route ("/convert")
-  - [ ] c. create controllers with script code 
-      - [ ] a. need to be able to upload and accept a csv file
-  
-- [ ] 4. tests for webserver
-    - [ ] a. create contract tests for endpoint
-  - [ ] b. create any unit tests needed for extra custom functions
+My ultimate goal though was to create this as a simple API to be used by anyone (within an organization!). 
 
-- [ ] 5. pipeline
-    - [ ] a. conenct to pipeline for any merge to master
-        - [ ] any build steps needed, tests to run
+I had planned one simple endpoint, `/convert` to accept a csv file in the format shown in `requirements.md`. A stretch goal would be to make a simple front end for folks not familiar with `curl`.
 
-- [ ] 6. deploy
-  - [ ] a. after pipeline is stable:
-  - [ ] b. choose platform and create provisioning IoC as needed
+I've kept track of high level milestones in `TODOS_checklist.md` and a working progress journal in `progress_log`.
 
-- [ ] 7. create user documentation 
-  - [ ] a. document from progress.log folder all usage requirements for users
+### So, not successful...yet
+But I've made a lot of progress! I'm pretty proud I made it almost to the end of a working script in a language I'm still very new with. And the opportunity to try to build out something new helped me learn more about images in go than I ever thought possible!
 
-- [ ] 8. create handoff information
-  - [ ] a. How to run server/script locally
-  - [ ] b. how to run tests
-    - [ ] a. how to write new tests if there is a standard pattern that deviates from community norms
-  - [ ] c. how to set up for deployment
-    - [ ] a. any env variables needed? 
-    - [ ] b. any changes to infra scripts etc
-  - [ ] c. structure of how service operates. 
-  - [ ] d. API documentation 
-
-  BLUE SKY ADDS:
-  1. Potentially harnessing a machine learning service/API/algorithm for further processing
-  
+## My one regret though: 
+Is that I haven't yet added tests. Once I get my script working and returning a satisfactory csv I really do need to go back and write unit tests 

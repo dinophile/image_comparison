@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"image"
+	"image/draw"
 	"image/png"
 	"io"
 	"log"
@@ -11,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 func ParseCSV(file string) [][]string {
@@ -37,18 +39,38 @@ func ParseCSV(file string) [][]string {
 	return imageStrings
 }
 
-func ImageCompare(img1, img2 *image.NRGBA) (int64, error) {
-	if img1.Bounds() != img2.Bounds() {
-		return 0, fmt.Errorf("image bounds not equal: %+v, %+v", img1.Bounds(), img2.Bounds())
+func ConvertImage(img image.Image) (*image.RGBA, error) {
+	src := img
+	bounds := img.Bounds()
+	mask := image.NewRGBA(image.Rect(0, 0, bounds.Dx(), bounds.Dy()))
+	draw.Draw(mask, mask.Bounds(), src, bounds.Min, draw.Src)
+	return mask, nil
+}
+
+func ImageCompare(img1, img2 image.Image) (int64, string, error) {
+	start := time.Now()
+	image1, err := ConvertImage(img1)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	image2, err := ConvertImage(img2)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if image1.Bounds() != image2.Bounds() {
+		return 0, fmt.Errorf("image bounds not equal: %+v, %+v", image1.Bounds(), image2.Bounds)
 	}
 
 	accumError := int64(0)
 
-	for i := 0; i < len(img1.Pix); i++ {
-		accumError += int64(sqDiffUInt8(img1.Pix[i], img2.Pix[i]))
+	for i := 0; i < len(image1.Pix); i++ {
+		accumError += int64(sqDiffUInt8(image1.Pix[i], image2.Pix[i]))
 	}
 
-	return int64(math.Sqrt(float64(accumError))), nil
+	elapsed := time.Since(start)
+
+	return int64(math.Sqrt(float64(accumError))), elapsed, nil
 
 }
 
@@ -58,13 +80,10 @@ func sqDiffUInt8(x, y uint8) uint64 {
 }
 
 func main() {
+	// eventually this will take in a request body carrying a csv payload
 	imagePairs := ParseCSV("input.csv")
 	// remove csv headers
 	imagePairs = imagePairs[1:]
-
-	// fetch images with http, loop through each array within
-	// imagePairs and pass each into image comparison algo
-	// return value
 
 	for _, imagePair := range imagePairs {
 		for j, image := range imagePair {
@@ -104,6 +123,7 @@ func main() {
 				log.Fatalln(err)
 			}
 
+			// do the same for image 2
 			img2, err := os.Open("/tmp/image1.png")
 			if err != nil {
 				log.Fatalln(err)
@@ -116,18 +136,17 @@ func main() {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			fmt.Printf("%T\n", loadedImage1)
-			fmt.Printf("%T\n", loadedImage2)
 
-			// here I'm trying to do type coercion from image.Image to image.RGBA so I
-			// can have access to the pixels and can pass to my compare algo
-			if loadedImage1, ok := loadedImage1.(*image.NRGBA); ok {
-				if loadedImage2, ok := loadedImage2.(*image.NRGBA); ok {
-					ImageCompare(loadedImage1, loadedImage2)
-				}
+			// pass to our comparison algorithm
+			result, err := ImageCompare(loadedImage1, loadedImage2)
+			if err != nil {
+				log.Fatalln(err)
 			}
+			fmt.Print(result)
 
-			fmt.Printf("Hello")
 		}
+
+		// every good script needs a sanity check! :D
+		fmt.Printf("Hello")
 	}
 }
