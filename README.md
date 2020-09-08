@@ -3,7 +3,7 @@
 
 Here I have the beginnings of an application to compare two `.png` images for similarity.
 
-I say beginnings of because as you can guess: it's not quite working.
+I say beginnings of because as you can guess: it's not quite working. It's not nearly as polished and finished as I had hoped. Choosing a language that's a 180 from what I'm used to working in made me lose time. The easiest part of using golang for me is setting up a webserver, one of my later tasks. The script to compare images took the bulk of my time. 
 
 I can get the script most of the way there with `go run main.go`, with the last hurdle being resizing the images to match in size and possibly resolutions? Need to investigate that! I'm getting stuck on `image bounds not equal` and that's pretty cool! I made it a lot farther than I had thought! :D
 

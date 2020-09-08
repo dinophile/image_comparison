@@ -35,6 +35,8 @@
 
 - [ ] 6. pipeline
     - [ ] a. connect to pipeline for any merge to master
+        - [ ] necessary env variables
+        - [ ] add example.env in code for maintainers and instructions on how to interact with infra - if I had a nickel for everytime this was not included in projects...
         - [ ] any build steps needed, tests to run
 
 - [ ] 7. deploy
@@ -57,4 +59,5 @@
   BLUE SKY ADDS:
   1. Potentially harnessing a machine learning service/API/algorithm for further processing
   2. Front end for microservice (microfront end?) to make it even easier for users: they could just drag and drop and then download the results? Or display then download? :think:
+  3. Auth? Auth. Some sort of simple token based auth would be useful, tied to user emails? Nothing with passwords or data to be stored, no one needs that hassle. Also would set up the deployment infra to only respond to internal IPs by default.
   
